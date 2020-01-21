@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: argocd
+
+# Use argocd base setup
+bases:
+- github.com/argoproj/argo-cd//manifests/cluster-install?ref=v1.4.0 #ref=release-1.4
+
+# additional resources like ingress rules, cluster and repository secrets.
+# resources:
+# - clusters-secrets.yaml
+# - repos-secrets.yaml
+
+# changes to config maps
+#patchesStrategicMerge:
+#- overlays/argocd-cm.yaml
+
+resources:
+- app-manifests.yaml
+
+

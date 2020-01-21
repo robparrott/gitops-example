@@ -1,0 +1,41 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: parrott-confluent-kafka
+  region: us-east-2
+  version: '1.14'
+
+nodeGroups:
+  - name: general
+    labels: 
+      role: general 
+      autoscaling: enabled
+      
+    instanceType: m5.xlarge
+    desiredCapacity: 4
+    privateNetworking: true
+    ssh:
+      allow: true 
+
+    # For ALB ingress
+
+    # iam:
+    #   withAddonPolicies:
+    #     albIngress: true
+
+# managedNodeGroups:
+#   - name: kafka-nodes
+#     minSize: 2
+#     maxSize: 4
+#     desiredCapacity: 3
+#     volumeSize: 100
+#     labels: 
+#       role: kafka
+#     tags:
+#       nodegroup-role: kafka
+#       owner: 'parrottr@aetna.com'
+#     # iam:
+#     #   withAddonPolicies:
+#     #     externalDNS: true
+#     #     certManager: true

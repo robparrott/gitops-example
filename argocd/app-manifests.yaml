@@ -1,0 +1,26 @@
+#
+# This allows placing a lit of Application CRD files into the
+#  
+#
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app-manifests
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/robparrott/k8s-gitops.git
+    targetRevision: HEAD
+    path: app-manifests
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+
+  # Sync policy
+  syncPolicy:
+    automated:
+      prune: true # Specifies if resources should be pruned during auto-syncing ( false by default ).
+      selfHeal: true # Specifies if partial app sync should be executed when resources are changed only in target Kubernetes cluster and no git change detected ( false by default ).
+

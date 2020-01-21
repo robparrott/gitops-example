@@ -1,0 +1,24 @@
+#
+# See https://argoproj.github.io/argo-cd/operator-manual/argocd-cm.yaml
+#
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: argocd-cm
+    app.kubernetes.io/part-of: argocd
+data:
+  # repositories: |
+  #   - url: https://github.com/robparrott/k8s-gitops
+    
+  # repository.credentials: |
+  #   - url: https://github.com/argoproj
+  #     passwordSecret:
+  #       name: my-secret
+  #       key: password
+  #     usernameSecret:
+  #       name: my-secret
+  #       key: username
