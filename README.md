@@ -55,7 +55,7 @@ touch README.md
 git init
 git add README.md
 git commit -m "first commit"
-git remote add origin git@github.com:robparrott/k8s-gitops.git
+git remote add origin git@github.com:robparrott/gitops-example.git
 git push -u origin master
 ```
 
@@ -73,7 +73,7 @@ Then enable gitops
 ```
 EKSCTL_EXPERIMENTAL=true eksctl \
     enable repo -f eksctl-cluster.yaml \
-    --git-url=git@github.com:robparrott/k8s-gitops.git \
+    --git-url=git@github.com:robparrott/gitops-example.git \
     --git-email=[ email ] \
     --git-private-ssh-key-path ~/.ssh/gitops-k8s
 ```
@@ -93,28 +93,12 @@ You can get the `kail` tool to selectively tail logs from pods locally:
 
 Vault:
 
-```
-kubectl port-forward service/vault-server -n vault 8200 
-```
 
 Kubernetes Dashboard:
 
 ```
 kubectl port-forward service/kube-dashboard-kubernetes-dashboard -n kube-system 8443:443 
 ```
-
-Kibana:
-
-```
-kubectl port-forward service/kibana-kibana -n logging 5601
-```
-
-MySQL:
-
-```
-kubectl port-forward service/mysql-vault-integration-demo 3306 
-```
-
 
 
 
