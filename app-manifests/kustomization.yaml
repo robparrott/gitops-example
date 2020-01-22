@@ -12,7 +12,7 @@ resources:
 - logging-operator.yaml
 - logging.yaml
 - eck.yaml
-- vault.yaml
+#- vault.yaml
 
 #- guestbook.yaml
 
