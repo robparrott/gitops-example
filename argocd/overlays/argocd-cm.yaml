@@ -13,7 +13,10 @@ metadata:
 data:
   # repositories: |
   #   - url: https://github.com/robparrott/k8s-gitops
-    
+    # - type: helm
+    #   url: https://storage.googleapis.com/istio-prerelease/daily-build/master-latest-daily/charts
+    #   name: istio.io
+
   # repository.credentials: |
   #   - url: https://github.com/argoproj
   #     passwordSecret:

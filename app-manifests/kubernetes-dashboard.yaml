@@ -8,6 +8,10 @@ spec:
   project: default
   source:
     helm:
+    # repoURL: https://github.com/argoproj/argocd-example-apps.git
+    # targetRevision: HEAD
+    # path: guestbook
+
       # Release name override (defaults to application name)
       releaseName: kubernetes-dashboard
 
