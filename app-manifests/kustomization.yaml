@@ -4,14 +4,14 @@ namespace: argocd
 
 resources:
 - admin-access.yaml
-- olm.yaml
-- service-mesh.yaml
+# - olm.yaml
+# - service-mesh.yaml
 - kubernetes-dashboard.yaml
-- prometheus-operator.yaml
-#- vault-operator.yaml
-- logging-operator.yaml
-- logging.yaml
-- eck.yaml
+# - prometheus-operator.yaml
+# #- vault-operator.yaml
+# - logging-operator.yaml
+# - logging.yaml
+# - eck.yaml
 #- vault.yaml
 
 #- guestbook.yaml
