@@ -16,7 +16,8 @@ bases:
 #- overlays/argocd-cm.yaml
 
 resources:
-- app-manifests.yaml
 - argocd.yaml
+- app-manifests.yaml
+
 
 
