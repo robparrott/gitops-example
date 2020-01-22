@@ -17,5 +17,6 @@ bases:
 
 resources:
 - app-manifests.yaml
+- argocd.yaml
 
 

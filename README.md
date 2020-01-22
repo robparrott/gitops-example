@@ -32,55 +32,38 @@ eksctl scale nodegroup \
         --nodes=6
 ```
 
-## Getting the cluster admin bearer token
-
-Service Account "eks-admin" has a bearer token for access, so you need to dig that out to access Kubernetes Dashboard:
-
-```
-SECRET=$(kubectl -n kube-system get secret | grep eks-admin-token | awk '{print $1}')
-TOKEN=$( kubectl -n kube-system describe secret ${SECRET} | grep "^token:" | awk '{print $2}' )
-echo $TOKEN
-
-```
-
 
 # Enable GitOps
 
-Integrate with ArgoCD (https://argocd.io/)
-
-Setup gitops repo 
+Integrate with ArgoCD (https://argocd.io/) by installing Argo into its own namespace:
 
 ```
-touch README.md
-git init
-git add README.md
-git commit -m "first commit"
-git remote add origin git@github.com:robparrott/gitops-example.git
-git push -u origin master
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
 
-Enable ssh auth
+and steps here: https://argoproj.github.io/argo-cd/getting_started/
+
+Initialize against this repo:
 
 ```
-ssh-keygen -f ~/.ssh/gitops-k8s
-cat ~/.ssh/gitops-k8s.pub 
-
+kubectl apply -n argocd -f ./argocd/argocd.yaml 
 ```
 
-Add that key as a deploy key in GitHub or wherever.
+And then port forward the argocd web interface:
 
-Then enable gitops 
 ```
-EKSCTL_EXPERIMENTAL=true eksctl \
-    enable repo -f eksctl-cluster.yaml \
-    --git-url=git@github.com:robparrott/gitops-example.git \
-    --git-email=[ email ] \
-    --git-private-ssh-key-path ~/.ssh/gitops-k8s
+ kubectl port-forward svc/argocd-server -n argocd 8080:443
 ```
 
-and confirm things are running.
+get the default initial password:
 
-You may need to get the newly created key and also add it as a deploy key in GitHub ... little flaky. Install `fluxcyl` and run `fluxctl identity --k8s-fwd-ns flux`. See https://docs.fluxcd.io/en/latest/tutorials/get-started.html#giving-write-access. YMMV.
+```
+kubectl get pods -n argocd -l app.kubernetes.io/name=argocd-server -o name | cut -d'/' -f 2
+```
+
+Login with this password, with username `admin`.
+
 
 
 # Tailing Logs 
@@ -98,6 +81,16 @@ Kubernetes Dashboard:
 
 ```
 kubectl port-forward service/kube-dashboard-kubernetes-dashboard -n kube-system 8443:443 
+```
+
+## Getting the cluster admin bearer token
+
+Service Account "eks-admin" has a bearer token for access, so you need to dig that out to access Kubernetes Dashboard:
+
+```
+SECRET=$(kubectl -n kube-system get secret | grep eks-admin-token | awk '{print $1}')
+TOKEN=$( kubectl -n kube-system describe secret ${SECRET} | grep "^token:" | awk '{print $2}' )
+echo $TOKEN
 ```
 
 
