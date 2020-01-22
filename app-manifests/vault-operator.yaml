@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: vault
-  
+
 ---
 apiVersion: operators.coreos.com/v1alpha2
 kind: OperatorGroup
@@ -50,7 +50,6 @@ spec:
             commandArgs:
               cluster-wide: true
               create-crd: false
-
 
   destination:
     server: 'https://kubernetes.default.svc'

@@ -11,7 +11,7 @@ resources:
 - vault-operator.yaml
 - eck.yaml
 - vault.yaml
-- guestbook.yaml
+#- guestbook.yaml
 
 
 
