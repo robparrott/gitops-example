@@ -9,6 +9,7 @@ resources:
 - kubernetes-dashboard.yaml
 - prometheus-operator.yaml
 - vault-operator.yaml
+- logging-operator.yaml
 - eck.yaml
 - vault.yaml
 #- guestbook.yaml
