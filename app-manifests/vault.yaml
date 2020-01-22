@@ -6,10 +6,158 @@ metadata:
   namespace: argocd
 spec:
   project: default
+
   source:
-    repoURL: https://github.com/robparrott/k8s-gitops.git
-    targetRevision: HEAD
-    path: systems/vault
+
+    repoURL: 'https://kubernetes-charts.banzaicloud.com'
+    version:   0.10.0
+    chart: vault
+
+    helm:
+      values: |
+
+        replicaCount: 2
+        strategy:
+          type: RollingUpdate
+
+        service:
+          name: vault
+          type: ClusterIP
+          port: 8200
+
+        image:
+          repository: vault
+          tag: 1.3.1
+          pullPolicy: IfNotPresent
+
+        vault:
+
+          # Allows the mounting of various custom secrets to enable production vault
+          # configurations. The comments show an example usage for mounting a TLS
+          # secret. The two fields required are a secretName indicating the name of
+          # the Kuberentes secret (created outside of this chart), and the mountPath
+          # at which it should be mounted in the Vault container.
+          #customSecrets: []
+            # - secretName: vault-tls
+            #   mountPath: /vault/tls
+
+          # Allows creating various custom environment variables from secrets to enable
+          # production vault configurations. The comments show an example usage for
+          # passing a MySQL secret. The three fields required are a secretName indicating
+          # the name of the Kuberentes secret (created outside of this chart), secretKey
+          # in this secret and envName which will be the name of the env var in the containers.
+
+          # These only are injected into vault-configurer and  vault-unsealer, not vault itself
+          envSecrets: 
+            - secretName: mysql-vault
+              secretKey: mysql-password
+              envName: MYSQL_VAULT_PASSWORD
+            - secretName: mysql-vault
+              secretKey: mysql-root-password
+              envName: MYSQL_ROOT_PASSWORD
+
+          # Allows adding various custom eenvironment variables directly.
+          envs: 
+            - name: TEST_ENV
+              value: TEST_VALUE
+
+          # customSecrets:
+          #   - secretName: mysql-vault
+          #     mountPath: /vault/mysql
+
+          externalConfig:
+            #
+            # Written to /vault/config/vault-config.yaml
+            #
+            # Allows creating policies in Vault which can be used later on in roles
+            # for the Kubernetes based authentication.
+            # See https://www.vaultproject.io/docs/concepts/policies.html for more information.
+            #
+            policies:
+              - name: allow_secrets
+                rules: path "secret/*" {
+                        capabilities = ["create", "read", "update", "delete", "list"]
+                      }
+            auth:
+              - type: kubernetes
+                # Allows creating roles in Vault which can be used later on for the Kubernetes based
+                # authentication.
+                # See https://www.vaultproject.io/docs/auth/kubernetes.html#creating-a-role for
+                # more information.
+                roles:
+                  # Allow every pod in the default namespace to use the secret kv store
+                  - name: default
+                    bound_service_account_names: default
+                    bound_service_account_namespaces: default
+                    policies: allow_secrets
+                    ttl: 1h
+
+            secrets:
+              - path: secret
+                type: kv
+                description: General secrets.
+                options:
+                  version: 2
+
+              - type: database
+                description: MySQL Database secret engine.
+                configuration:
+                  config:
+                    - name: mysql-vault
+                      plugin_name: "mysql-database-plugin"
+                      connection_url: "{{username}}:{{password}}@tcp(mysql-vault:3306)/"
+                      allowed_roles: [app]
+                      username: "root"
+                      password: "${env `MYSQL_ROOT_PASSWORD`}" # Example how to read environment variables, with the env function
+                      rotate: true # Ask bank-vaults to ask Vault to rotate the root credentials of MySQL
+                  roles:
+                    - name: app
+                      db_name: app-db
+                      creation_statements: "CREATE USER '{{name}}'@'%' IDENTIFIED BY '{{password}}'; GRANT ALL ON `app\_%`.* TO '{{name}}'@'%';"
+                      default_ttl: "10m"
+                      max_ttl: "24h"
+
+          logLevel: debug    
+
+          config:
+            #
+            # Written to /vault/config/config.json
+            #        
+            #
+            # A YAML representation of a final vault config.json file.
+            # See https://www.vaultproject.io/docs/configuration/ for more information.
+            #
+
+            storage:
+              mysql:
+                address: mysql-vault.vault.svc.cluster.local:3306
+                username: vault
+                password: "${ .Env.MYSQL_VAULT_PASSWORD }"
+                ha_enabled: "true"
+              # consul:
+              #   address: "myconsul-svc-name:8500"
+              #   path: "vault"
+
+            listener:
+              tcp:
+                address: '[::]:8200'
+                # tls_disable: true
+                tls_cert_file: /vault/tls/server.crt
+                tls_key_file: /vault/tls/server.key
+                 
+            ui: true
+
+        unsealer:
+          image:
+            repository: banzaicloud/bank-vaults
+            tag: master
+            pullPolicy: IfNotPresent
+          args: [
+            "--mode", "k8s", 
+            "--k8s-secret-namespace", "vault", 
+            "--k8s-secret-name", "bank-vaults"
+          ]
+
   destination:
     server: https://kubernetes.default.svc
     namespace: vault
@@ -19,4 +167,6 @@ spec:
     automated:
       prune: true # Specifies if resources should be pruned during auto-syncing ( false by default ).
       selfHeal: true # Specifies if partial app sync should be executed when resources are changed only in target Kubernetes cluster and no git change detected ( false by default ).
+
+
 
