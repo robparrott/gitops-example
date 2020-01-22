@@ -23,21 +23,21 @@ spec:
       values: |
 
         prometheusOperator:
-          enabled: true
+          enabled: false
 
         prometheus:
-          enabled: true
+          enabled: false
 
         alertmanager:
-          enabled: true
+          enabled: false
 
         grafana:
-          enabled: true
+          enabled: false
           defaultDashboardsEnabled: true
           adminPassword: prom-operator
 
         nodeExporter:
-          enabled: true
+          enabled: false
 
   destination:
     server: 'https://kubernetes.default.svc'

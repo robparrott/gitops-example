@@ -13,6 +13,21 @@ Suitable rights to create resources
 eksctl create cluster -f eksctl-cluster.yaml
 ```
 
+## Create using terraform
+
+See:
+
+* https://github.com/terraform-aws-modules/terraform-aws-eks/tree/master/examples
+* https://github.com/terraform-providers/terraform-provider-aws/tree/master/examples/eks-getting-started
+* https://medium.com/tensult/guide-to-setup-kubernetes-in-aws-eks-using-terraform-and-deploy-sample-applications-ee8c45e425ca
+
+```
+cd terraform
+terraform init
+terraform plan
+terraform apply
+```
+
 ## Scaling Manually
 
 Determine the relevant nodegroup name (should be the name from the yaml file):
