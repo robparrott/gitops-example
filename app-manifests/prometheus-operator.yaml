@@ -19,6 +19,26 @@ spec:
     targetRevision:  8.5.11
     chart: prometheus-operator
 
+    helm:
+      values: |
+
+        prometheusOperator:
+          enabled: true
+
+        prometheus:
+          enabled: true
+
+        alertmanager:
+          enabled: true
+
+        grafana:
+          enabled: true
+          defaultDashboardsEnabled: true
+          adminPassword: prom-operator
+
+        nodeExporter:
+          enabled: true
+
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: monitoring
