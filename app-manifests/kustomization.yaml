@@ -5,6 +5,8 @@ namespace: argocd
 resources:
 - admin-access.yaml
 - guestbook.yaml
+- olm.yaml
+- kubernetes-dashboard.yaml
 
 
 
