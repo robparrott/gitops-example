@@ -8,7 +8,7 @@ resources:
 - service-mesh.yaml
 - kubernetes-dashboard.yaml
 - prometheus-operator.yaml
-- vault-operator.yaml
+#- vault-operator.yaml
 - logging-operator.yaml
 - logging.yaml
 - eck.yaml
