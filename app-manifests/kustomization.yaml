@@ -10,8 +10,10 @@ resources:
 - prometheus-operator.yaml
 - vault-operator.yaml
 - logging-operator.yaml
+- logging.yaml
 - eck.yaml
 - vault.yaml
+
 #- guestbook.yaml
 
 
