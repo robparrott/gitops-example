@@ -16,7 +16,7 @@ spec:
   source:
     repoURL: https://github.com/robparrott/k8s-gitops.git
     targetRevision: HEAD
-    path: app-manifests
+    path: ./
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
