@@ -18,7 +18,7 @@ Besides a basic understanding of DevOps patterns, and some enthusiasm and curiou
 
 ## Create EKS Cluster
 ```
-eksctl create cluster -f eksctl-cluster.yaml
+eksctl create cluster -f eksctl/eksctl-cluster.yaml
 ```
 
 ## Scaling Manually
