@@ -17,7 +17,8 @@ bases:
 
 resources:
 - argocd.yaml
-- app-manifests.yaml
+- k8s-gitops-app-manifests.yaml
+#- confluent-app-manifests.yaml
 
 
 

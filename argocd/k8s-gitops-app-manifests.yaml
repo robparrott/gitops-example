@@ -1,6 +1,6 @@
 #
-# This allows placing a lit of Application CRD files into the
-#  
+# This allows placing a lit of Application CRD files into the remote repository
+#   and loading them as a "meta-app"
 #
 ---
 apiVersion: argoproj.io/v1alpha1
@@ -11,7 +11,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/robparrott/gitops-example.git
+    repoURL: https://github.com/robparrott/k8s-gitops.git
     targetRevision: HEAD
     path: app-manifests
   destination:

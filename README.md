@@ -28,6 +28,12 @@ terraform plan
 terraform apply
 ```
 
+Enable kubectl to access this via:
+
+```
+aws eks update-kubeconfig --region us-west-2 --name k8s-sandbox
+```
+
 ## Scaling Manually
 
 Determine the relevant nodegroup name (should be the name from the yaml file):
