@@ -1,10 +1,19 @@
 # Overview
 
-An example setup for starting gitOps using ArgoCD (https://argocd.io/) on Kubernetes (http://k8s.io/).
+An example setup for starting gitOps using ArgoCD (https://argocd.io/) on Kubernetes (http://k8s.io/) running in AWS on EKS.
+
+This example, coupled with its companion repository https://github.com/robparrott/k8s-gitops, provide an reference of how to establish a GitOps pattern for deploying applications to Kubernetes from a known state captured fully declaratively as infrastructure as code. Changes to the subscribed-to repositories in this model are pushed automatically to one or more 
 
 # Prerequisites
 
-Suitable rights to create resources
+Besides a basic understanding of DevOps patterns, and some enthusiasm and curiousity, you'll need:
+
+* Suitable rights to create resources in AWS.
+* Local installation of the eksctl tool (https://eksctl.io/)
+* Local installation of the kubernetes clients (kubectl, kubeconfig)
+* Git 
+
+
 
 # Infrastructure 
 
@@ -15,6 +24,7 @@ eksctl create cluster -f eksctl-cluster.yaml
 
 ## Create using terraform
 
+_ This is a work in progress so buyer beware..._
 See:
 
 * https://github.com/terraform-aws-modules/terraform-aws-eks/tree/master/examples
