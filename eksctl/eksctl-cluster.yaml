@@ -1,0 +1,38 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: sandbox-confluent-kafka
+  region: us-west-2
+  version: '1.14'
+
+nodeGroups:
+
+  - name: general
+    instanceType: m5.large
+    desiredCapacity: 2
+    privateNetworking: true
+    labels: 
+      role: general 
+      autoscaling: enabled
+    tags:
+      nodegroup-role: worker
+      owner: 'parrottr@aetna.com'  
+
+managedNodeGroups:
+
+  - name: workers
+    instanceType: t2.large
+    minSize: 2
+    maxSize: 4
+    desiredCapacity: 3
+    volumeSize: 100
+
+    labels: {role: worker}
+    tags:
+      nodegroup-role: worker
+      owner: 'parrottr@aetna.com'      
+    iam:
+      withAddonPolicies:
+        externalDNS: true
+        certManager: true
