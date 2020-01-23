@@ -8,6 +8,9 @@ kind: Application
 metadata:
   name: app-manifests
   namespace: argocd
+  
+  finalizers: # Add a this finalizer ONLY if you want these to cascade delete.
+    - resources-finalizer.argocd.argoproj.io    
 spec:
   project: default
   source:
