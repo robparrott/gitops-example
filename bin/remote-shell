@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo Launching bash shell in remote Ubunutu pod in kubernetes...
+kubectl run my-shell --rm -i --tty --image ubuntu -- bash      
