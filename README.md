@@ -116,6 +116,9 @@ You can get the `kail` tool to selectively tail logs from pods locally:
 
 * https://github.com/boz/kail
 
+# Remote Shell
+
+Simple remote shell can be executed by running `./bin/remote-shell`. This creates an Ubunta box ... install bits and pieces there using `apt install ____`
 
 
 
