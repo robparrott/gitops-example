@@ -27,7 +27,7 @@ Determine the relevant nodegroup name (should be the name from the yaml file):
 ```
 eksctl get nodegroup \
         --region=us-east-2 \
-        --cluster=parrott-confluent-kafka
+        --cluster=sandbox
 ```
 
 And then scale up or down:
@@ -35,7 +35,7 @@ And then scale up or down:
 ```
 eksctl scale nodegroup \
         --region=us-east-2 \
-        --cluster=parrott-confluent-kafka \
+        --cluster=sandbox \
         --name=general \
         --nodes=6
 ```

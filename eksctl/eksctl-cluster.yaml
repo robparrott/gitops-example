@@ -2,7 +2,7 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: sandbox-confluent-kafka
+  name: sandbox
   region: us-west-2
   version: '1.14'
 
@@ -17,7 +17,7 @@ nodeGroups:
       autoscaling: enabled
     tags:
       nodegroup-role: worker
-      owner: 'parrottr@aetna.com'  
+      owner: 'myname'  
 
 managedNodeGroups:
 
@@ -31,7 +31,7 @@ managedNodeGroups:
     labels: {role: worker}
     tags:
       nodegroup-role: worker
-      owner: 'parrottr@aetna.com'      
+      owner: 'myname'      
     iam:
       withAddonPolicies:
         externalDNS: true
