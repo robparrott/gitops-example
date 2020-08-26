@@ -1,0 +1,5 @@
+This directory provides ArgoCD manifest to enable ArgoCD to bootstrap into managing itself and a collection of other applications.
+
+The `argocd.yaml` manifest defines a kubernetes CustomResource that specifies an ArgoCD application installation. That argocd `Application` CR record points to this git url for further details. To install, the `kustomization.yaml` preprocessor is run to apply any overlays to the manifests, and then the `k8s-gitops-app-manifests.yaml` manifest is loaded, which creates a argocd `Application` record named `k8s-gitops-app-manifests`. This is the entrypoint for bootstrapping additional packages as `Application` CustomerResources. For any given tree of packages managed using ArgoCD in this fashion, then the `k8s-gitops-app-manifests` is the root of that tree.
+
+Make sense? It will ...
