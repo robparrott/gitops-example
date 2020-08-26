@@ -3,36 +3,65 @@ kind: ClusterConfig
 
 metadata:
   name: sandbox
-  region: us-west-2
-  version: '1.14'
+  region: us-east-2
+  version: '1.17'
+  tags: { "Owner" : "parrott" }
 
-nodeGroups:
 
-  - name: general
-    instanceType: m5.large
-    desiredCapacity: 2
-    privateNetworking: true
-    labels: 
-      role: general 
-      autoscaling: enabled
-    tags:
-      nodegroup-role: worker
-      owner: 'myname'  
+
+# don't use node gropus ... favor managed nodegroups in EKS
+nodeGroups: []
+
 
 managedNodeGroups:
-
-  - name: workers
-    instanceType: t2.large
-    minSize: 2
-    maxSize: 4
-    desiredCapacity: 3
-    volumeSize: 100
-
+  - name: sandbox-managed-ng-1
+    instanceType: t2.large #m5.large
+    minSize: 1
+    maxSize: 5
+    desiredCapacity: 1
+    volumeSize: 50
+    privateNetworking: true 
+    # ssh:
+    #   allow: true
+    #   publicKeyPath: ~/.ssh/ec2_id_rsa.pub
+    #   # new feature for restricting SSH access to certain AWS security group IDs
+    #   sourceSecurityGroupIds: ["sg-00241fbb12c607007"]
     labels: {role: worker}
     tags:
       nodegroup-role: worker
-      owner: 'myname'      
+      owner: 'parrott' 
     iam:
       withAddonPolicies:
         externalDNS: true
         certManager: true
+        albIngress: true
+        autoScaler: true
+        cloudWatch: true
+
+
+fargateProfiles:
+  - name: sandbox-fp-default
+    selectors:
+      # All workloads in the "default" Kubernetes namespace will be
+      # scheduled onto Fargate:
+      - namespace: fargate
+        labels:
+          env: sandbox
+
+# Bootstraps kubernetes via Flux CD
+#
+#  Prefer ArgoCD instead.
+#
+# git:
+#   repo:
+#     url: "git@github.com:robparrott/eks-bootstrap.git"
+#     branch: master
+#     fluxPath: "flux/"
+#     user: "gitops"
+#     email: "my@email"
+#   operator:
+#     namespace: "flux"
+#     withHelm: true
+#   bootstrapProfile:
+#     source: app-dev
+#     revision: master

@@ -1,0 +1,1 @@
+This directory contains the configuration for launching an EKS clsuter using the eksctl tool.
