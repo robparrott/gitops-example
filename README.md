@@ -93,7 +93,11 @@ You can access the web interface by port forwarding the argocd service:
  kubectl port-forward svc/argocd-server -n argocd 9443:443
 ```
 
-Login with this password, with username `admin`.
+
+Login with this password, with username `admin` to the local URL:
+
+* https://localhost:9443/
+
 
 ## Enable Automation
 
@@ -121,5 +125,11 @@ You can get the `kail` tool to selectively tail logs from pods locally:
 Simple remote shell can be executed by running `./bin/remote-shell`. This creates an Ubunta box ... install bits and pieces there using `apt install ____`
 
 
+# Dealing with troublesome finalizers:
 
+
+To clean up namespaces that will not delete (and don't have stuck resources):
+```
+for ns in $(kubectl get ns --field-selector status.phase=Terminating -o jsonpath='{.items[*].metadata.name}'); do  kubectl get ns $ns -ojson | jq '.spec.finalizers = []' | kubectl replace --raw "/api/v1/namespaces/$ns/finalize" -f -; done
+```
 
