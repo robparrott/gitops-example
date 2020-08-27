@@ -6,7 +6,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: k8s-gitops-app-manifests
+  name: ROOT
   namespace: argocd
   
   finalizers: # Add a this finalizer ONLY if you want these to cascade delete.
