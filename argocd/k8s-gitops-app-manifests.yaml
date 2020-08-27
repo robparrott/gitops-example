@@ -9,7 +9,7 @@ metadata:
   name: root
   namespace: argocd
   
-  finalizers:  []
+  #finalizers:  []
     # Add a this finalizer ONLY if you want these to cascade delete.
     #- resources-finalizer.argocd.argoproj.io    
 spec:
