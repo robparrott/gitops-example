@@ -128,8 +128,14 @@ Simple remote shell can be executed by running `./bin/remote-shell`. This create
 # Dealing with troublesome finalizers:
 
 
-To clean up namespaces that will not delete (and don't have stuck resources):
+To clean up *namespaces* that will not delete (and don't have stuck resources):
 ```
 for ns in $(kubectl get ns --field-selector status.phase=Terminating -o jsonpath='{.items[*].metadata.name}'); do  kubectl get ns $ns -ojson | jq '.spec.finalizers = []' | kubectl replace --raw "/api/v1/namespaces/$ns/finalize" -f -; done
+```
+
+for other objects:
+
+```
+kubectl patch app APPNAME  -p '{"metadata": {"finalizers": []}}' --type merge
 ```
 
