@@ -4,7 +4,7 @@ namespace: argocd
 
 # Use argocd base setup
 bases:
-- github.com/argoproj/argo-cd//manifests/cluster-install?ref=v1.4.0 #ref=release-1.4
+- github.com/argoproj/argo-cd/manifests/cluster-install?ref=v1.7.1 
 
 # additional resources like ingress rules, cluster and repository secrets.
 # resources:
