@@ -4,7 +4,7 @@ namespace: argocd
 
 # Use argocd base setup
 bases:
-- github.com/argoproj/argo-cd/manifests/cluster-install?ref=v1.7.1 
+- github.com/argoproj/argo-cd/manifests/cluster-install?ref=v1.7.2 
 
 # additional resources like ingress rules, cluster and repository secrets.
 # resources:
@@ -17,8 +17,6 @@ bases:
 
 resources:
 - argocd.yaml
-- k8s-gitops-app-manifests.yaml
-#- confluent-app-manifests.yaml
 
 
 

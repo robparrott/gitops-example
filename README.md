@@ -104,6 +104,16 @@ Login with this password, with username `admin` to the local URL:
 While you can us the web interface or CLI to configure, it's easier to use automation. At this point the application is installed but unconfigured.  To bind the cluster to a GitOps repository for automation, initialize it against the companion repository by running:
 
 ```
+kubectl apply -n argocd -f ./root/root-app.yaml 
+```
+
+This enables a very simple "application" that is a set of links to application in the compnaion repository.
+
+## Manage ArgoCD
+
+We can also bootstrap the management of ArgoCD manifests using ArgoCD itself:
+
+```
 kubectl apply -n argocd -f ./argocd/argocd.yaml 
 ```
 
