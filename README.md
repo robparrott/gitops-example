@@ -149,3 +149,9 @@ for other objects:
 kubectl patch app APPNAME  -p '{"metadata": {"finalizers": []}}' --type merge
 ```
 
+For pods try forced deleting:
+
+```
+kubectl delete pod <PODNAME> --grace-period=0 --force --namespace <NAMESPACE>
+```
+
